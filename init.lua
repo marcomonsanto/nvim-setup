@@ -246,12 +246,13 @@ require('lazy').setup({
       local ui = require 'harpoon.ui'
       local mark = require 'harpoon.mark'
 
-      vim.keymap.set('n', '<leader>a', mark.add_file)
-      vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu)
+      vim.keymap.set('n', '<leader>ha', mark.add_file, { desc = '[H]arpoon [A]dd' })
+      vim.keymap.set('n', '<leader>hl', ui.toggle_quick_menu, { desc = '[H]arpoon [L]ist' })
+      vim.keymap.set('n', '<leader>hc', mark.clear_all, { desc = '[H]arpoon [C]lear' })
 
       vim.keymap.set('n', '<C-m>', function()
         ui.nav_file(1)
-      end)
+      end, { desc = '' })
       vim.keymap.set('n', '<C-,>', function()
         ui.nav_file(2)
       end)
@@ -358,6 +359,7 @@ require('lazy').setup({
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+        ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
       }
     end,
   },
