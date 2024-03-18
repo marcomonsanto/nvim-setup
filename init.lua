@@ -93,6 +93,16 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = false
 
+-- Copilot settings
+vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+  expr = true,
+  replace_keycodes = false,
+})
+vim.g.copilot_no_tab_map = true
+
+-- Set background to transparent
+-- vim.g.oh_lucy_transparent_background = true
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -228,6 +238,69 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
+  'github/copilot.vim',
+  {
+    'ThePrimeagen/harpoon',
+    config = function()
+      require('telescope').setup {}
+      local ui = require 'harpoon.ui'
+      local mark = require 'harpoon.mark'
+
+      vim.keymap.set('n', '<leader>a', mark.add_file)
+      vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu)
+
+      vim.keymap.set('n', '<C-m>', function()
+        ui.nav_file(1)
+      end)
+      vim.keymap.set('n', '<C-,>', function()
+        ui.nav_file(2)
+      end)
+      vim.keymap.set('n', '<C-.>', function()
+        ui.nav_file(3)
+      end)
+      vim.keymap.set('n', '<C-/>', function()
+        ui.nav_file(4)
+      end)
+    end,
+  },
+
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+      'MunifTanjim/nui.nvim',
+      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+    },
+    config = function()
+      require('neo-tree').setup {
+        window = {
+          mappings = {
+            ['<space>'] = 'none',
+            ['Y'] = {
+              function(state)
+                local node = state.tree:get_node()
+                local path = node:get_id()
+                vim.fn.setreg('+', path, 'c')
+              end,
+              desc = 'copy path to clipboard',
+            },
+          },
+        },
+        default_component_configs = {
+          indent = {
+            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = '',
+            expander_expanded = '',
+            expander_highlight = 'NeoTreeExpander',
+          },
+        },
+      }
+    end,
+  },
+
+  -- local builtin = require 'telescope.builtin'
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -239,7 +312,6 @@ require('lazy').setup({
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
-
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
   --    require('gitsigns').setup({ ... })
@@ -368,7 +440,9 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sf', function()
+        builtin.find_files { hidden = true }
+      end, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -548,7 +622,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -733,14 +807,15 @@ require('lazy').setup({
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
     --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
+    -- 'folke/tokyonight.nvim',
+    'Yazeed1s/oh-lucy.nvim',
+    priority = 1000, -- make sure to load this before all the other start plugins
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'oh-lucy'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -791,7 +866,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'typescript' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -828,8 +903,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.indent_line',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
