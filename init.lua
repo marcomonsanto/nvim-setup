@@ -114,6 +114,8 @@ vim.opt.number = true
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 
+vim.opt.linebreak = true
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
@@ -337,6 +339,14 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+  },
+
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+    -- use opts = {} for passing setup options
+    -- this is equalent to setup({}) function
   },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -751,8 +761,11 @@ require('lazy').setup({
     config = function()
       -- See `:help cmp`
       local cmp = require 'cmp'
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
+
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
       cmp.setup {
         snippet = {
