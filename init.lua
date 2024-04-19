@@ -645,6 +645,7 @@ require('lazy').setup({
         -- But for many etups, the LSP (`tsserver`) will work just fine
         tsserver = {},
         eslint = {},
+        tailwindcss = {},
         --
 
         lua_ls = {
