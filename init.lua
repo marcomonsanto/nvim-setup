@@ -91,7 +91,9 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
+
+vim.opt.scrolloff = math.floor(0.5 * vim.o.lines)
 
 -- Copilot settings
 vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
@@ -115,6 +117,8 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 vim.opt.linebreak = true
+
+vim.opt.swapfile = false
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -201,6 +205,9 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half page up' })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half page down' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -299,7 +306,7 @@ require('lazy').setup({
             expander_highlight = 'NeoTreeExpander',
           },
         },
-        width = 30,
+        width = 25,
         filesystem = {
           follow_current_file = {
             enabled = true, -- This will find and focus the file in the active buffer every time
@@ -623,6 +630,9 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' })
+      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' })
+
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -775,6 +785,14 @@ require('lazy').setup({
           end,
         },
         completion = { completeopt = 'menu,menuone,noinsert' },
+        window = {
+          completion = {
+            border = 'rounded', -- single|rounded|none
+          },
+          documentation = {
+            border = 'rounded', -- single|rounded|none
+          },
+        },
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
@@ -836,7 +854,7 @@ require('lazy').setup({
   --   -- change the command in the config to whatever the name of that colorscheme is.
   --   --
   --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
-  --   -- 'folke/tokyonight.nvim',
+  -- 'folke/tokyonight.nvim',
   --   -- 'Yazeed1s/oh-lucy.nvim',
   --   priority = 1000, -- make sure to load this before all the other start plugins
   --   init = function()
@@ -993,7 +1011,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
