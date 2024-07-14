@@ -93,6 +93,18 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
+vim.opt.scrolloff = math.floor(0.5 * vim.o.lines)
+
+-- Copilot settings
+-- vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+--   expr = true,
+--   replace_keycodes = false,
+-- })
+-- vim.g.copilot_no_tab_map = true
+
+-- Set background to transparent
+-- vim.g.oh_lucy_transparent_background = true
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -152,7 +164,9 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+-- vim.opt.scrolloff = 10
+
+vim.opt.tabstop = 4
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -228,6 +242,78 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
+  -- 'github/copilot.vim',
+  {
+    'ThePrimeagen/harpoon',
+    config = function()
+      require('telescope').setup {}
+      local ui = require 'harpoon.ui'
+      local mark = require 'harpoon.mark'
+
+      vim.keymap.set('n', '<leader>ha', mark.add_file, { desc = '[H]arpoon [A]dd' })
+      vim.keymap.set('n', '<leader>hl', ui.toggle_quick_menu, { desc = '[H]arpoon [L]ist' })
+      vim.keymap.set('n', '<leader>hc', mark.clear_all, { desc = '[H]arpoon [C]lear' })
+
+      vim.keymap.set('n', '<C-m>', function()
+        ui.nav_file(1)
+      end, { desc = '' })
+      vim.keymap.set('n', '<C-,>', function()
+        ui.nav_file(2)
+      end)
+      vim.keymap.set('n', '<C-.>', function()
+        ui.nav_file(3)
+      end)
+      vim.keymap.set('n', '<C-/>', function()
+        ui.nav_file(4)
+      end)
+    end,
+  },
+
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+      'MunifTanjim/nui.nvim',
+      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+    },
+    config = function()
+      require('neo-tree').setup {
+        window = {
+          mappings = {
+            ['<space>'] = 'none',
+            ['Y'] = {
+              function(state)
+                local node = state.tree:get_node()
+                local path = node:get_id()
+                vim.fn.setreg('+', path, 'c')
+              end,
+              desc = 'copy path to clipboard',
+            },
+          },
+        },
+        default_component_configs = {
+          indent = {
+            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = '',
+            expander_expanded = '',
+            expander_highlight = 'NeoTreeExpander',
+          },
+        },
+        width = 25,
+        filesystem = {
+          follow_current_file = {
+            enabled = true, -- This will find and focus the file in the active buffer every time
+            --               -- the current file is changed while the tree is open.
+            leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+          },
+        },
+      }
+    end,
+  },
+
+  -- local builtin = require 'telescope.builtin'
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -359,6 +445,11 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          file_ignore_patterns = {
+            'node_modules',
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -566,7 +657,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
