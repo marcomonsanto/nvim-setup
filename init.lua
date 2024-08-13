@@ -91,9 +91,9 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
-vim.opt.scrolloff = math.floor(0.5 * vim.o.lines)
+-- vim.opt.scrolloff = math.floor(0.5 * vim.o.lines)
 
 -- Copilot settings
 -- vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
@@ -170,7 +170,7 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 -- vim.opt.scrolloff = 10
 
-vim.opt.tabstop = 4
+vim.opt.tabstop = 2
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -234,6 +234,27 @@ if not vim.loop.fs_stat(lazypath) then
   vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+-- Stuff to remove later
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'TelescopeResults',
+  callback = function(ctx)
+    vim.api.nvim_buf_call(ctx.buf, function()
+      vim.fn.matchadd('TelescopeParent', '\t\t.*$')
+      vim.api.nvim_set_hl(0, 'TelescopeParent', { link = 'Comment' })
+    end)
+  end,
+})
+
+local function filenameFirst(_, path)
+  local tail = vim.fs.basename(path)
+  local parent = vim.fs.dirname(path)
+  if parent == '.' then
+    return tail
+  end
+  return string.format('%s\t\t%s', tail, parent)
+end
 
 -- [[ Configure and install plugins ]]
 --
@@ -309,7 +330,7 @@ require('lazy').setup({
             expander_highlight = 'NeoTreeExpander',
           },
         },
-        width = 25,
+        width = 35,
         filesystem = {
           follow_current_file = {
             enabled = true, -- This will find and focus the file in the active buffer every time
@@ -332,7 +353,18 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  {
+    'numToStr/Comment.nvim',
+    -- opts = {
+    --   pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+    -- },
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    config = function() -- This is the function that runs, AFTER loading
+      require('Comment').setup {
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      }
+    end,
+  },
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
   --    require('gitsigns').setup({ ... })
@@ -389,7 +421,7 @@ require('lazy').setup({
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+        -- ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
       }
       -- visual mode
       require('which-key').register({
@@ -477,8 +509,10 @@ require('lazy').setup({
         -- },
         -- pickers = {}
         defaults = {
+          path_display = filenameFirst,
           file_ignore_patterns = {
             'node_modules',
+            '.git',
           },
         },
         extensions = {
@@ -971,12 +1005,57 @@ require('lazy').setup({
   --   end,
   -- },
   --
+  -- {
+  --   'Shatur/neovim-ayu',
+  --   priority = 1000,
+  --   config = function()
+  --     -- vim.g.ayucolor = 'dark'
+  --     vim.cmd 'colorscheme ayu-dark'
+  --   end,
+  -- },
+  --
   {
-    'Shatur/neovim-ayu',
+    'catppuccin/nvim',
+    name = 'catppuccin',
     priority = 1000,
     config = function()
-      -- vim.g.ayucolor = 'dark'
-      vim.cmd 'colorscheme ayu-dark'
+      require('catppuccin').setup {
+        {
+          no_italic = true,
+          term_colors = true,
+          transparent_background = false,
+          styles = {
+            comments = {},
+            conditionals = {},
+            loops = {},
+            functions = {},
+            keywords = {},
+            strings = {},
+            variables = {},
+            numbers = {},
+            booleans = {},
+            properties = {},
+            types = {},
+          },
+          color_overrides = {
+            mocha = {
+              base = '#000000',
+              mantle = '#000000',
+              crust = '#000000',
+            },
+          },
+          integrations = {
+            telescope = {
+              enabled = true,
+            },
+            dropbar = {
+              enabled = true,
+              color_mode = true,
+            },
+          },
+        },
+      }
+      vim.cmd 'colorscheme catppuccin'
     end,
   },
 
