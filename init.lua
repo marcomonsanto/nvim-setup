@@ -337,6 +337,18 @@ require('lazy').setup({
             --               -- the current file is changed while the tree is open.
             leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
           },
+          filtered_items = {
+            visible = true,
+            show_hidden_count = true,
+            hide_dotfiles = false,
+            hide_gitignored = true,
+            hide_by_name = {
+              -- '.git',
+              -- '.DS_Store',
+              -- 'thumbs.db',
+            },
+            never_show = {},
+          },
         },
       }
     end,
@@ -413,7 +425,7 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
+      require('which-key').add {
         ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
@@ -424,7 +436,7 @@ require('lazy').setup({
         -- ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
       }
       -- visual mode
-      require('which-key').register({
+      require('which-key').add({
         ['<leader>h'] = { 'Git [H]unk' },
       }, { mode = 'v' })
     end,
@@ -520,6 +532,18 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
         },
+        pickers = {
+          live_grep = {
+            file_ignore_patterns = { 'node_modules', '.git', '.venv' },
+            additional_args = function(_)
+              return { '--hidden' }
+            end,
+          },
+          find_files = {
+            file_ignore_patterns = { 'node_modules', '.git', '.venv' },
+            hidden = true,
+          },
+        },
       }
 
       -- Enable Telescope extensions if they are installed
@@ -542,8 +566,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<leader>sc', builtin.git_status, { desc = '[S]earch by [C]hanges' })
-      vim.keymap.set('n', '<leader>dg', '<cmd>Telescope dir live_grep<CR>')
-      vim.keymap.set('n', '<leader>df', '<cmd>Telescope dir find_files<CR>')
+      vim.keymap.set('n', '<leader>sDg', '<cmd>Telescope dir live_grep<CR>', { desc = '[S]earch in [D]irectory [G]rep' })
+      vim.keymap.set('n', '<leader>sDf', '<cmd>Telescope dir find_files<CR>', { desc = '[S]earch in [D]irectory [F]iles' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -740,7 +764,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many etups, the LSP (`tsserver`) will work just fine
-        tsserver = {},
+        -- tsserver = {},
         eslint = {},
         tailwindcss = {},
         --
@@ -1014,48 +1038,91 @@ require('lazy').setup({
   --   end,
   -- },
   --
+  -- {
+  --   'catppuccin/nvim',
+  --   name = 'catppuccin',
+  --   priority = 1000,
+  --   config = function()
+  --     require('catppuccin').setup {
+  --       {
+  --         no_italic = true,
+  --         term_colors = true,
+  --         transparent_background = false,
+  --         styles = {
+  --           comments = {},
+  --           conditionals = {},
+  --           loops = {},
+  --           functions = {},
+  --           keywords = {},
+  --           strings = {},
+  --           variables = {},
+  --           numbers = {},
+  --           booleans = {},
+  --           properties = {},
+  --           types = {},
+  --         },
+  --         color_overrides = {
+  --           mocha = {
+  --             base = '#000000',
+  --             mantle = '#000000',
+  --             crust = '#000000',
+  --           },
+  --         },
+  --         integrations = {
+  --           telescope = {
+  --             enabled = true,
+  --           },
+  --           dropbar = {
+  --             enabled = true,
+  --             color_mode = true,
+  --           },
+  --         },
+  --       },
+  --     }
+  --     vim.cmd 'colorscheme catppuccin'
+  --   end,
+  -- },
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'AlexvZyl/nordic.nvim',
+    lazy = false,
     priority = 1000,
     config = function()
-      require('catppuccin').setup {
-        {
-          no_italic = true,
-          term_colors = true,
-          transparent_background = false,
-          styles = {
-            comments = {},
-            conditionals = {},
-            loops = {},
-            functions = {},
-            keywords = {},
-            strings = {},
-            variables = {},
-            numbers = {},
-            booleans = {},
-            properties = {},
-            types = {},
-          },
-          color_overrides = {
-            mocha = {
-              base = '#000000',
-              mantle = '#000000',
-              crust = '#000000',
-            },
-          },
-          integrations = {
-            telescope = {
-              enabled = true,
-            },
-            dropbar = {
-              enabled = true,
-              color_mode = true,
-            },
-          },
+      require('nordic').setup {
+        swap_backgrounds = true,
+        on_palette = function(palette)
+          -- palette.black0 = '#BF616A'
+
+          -- palette.orange = {
+          --   base = '#EBAE80',
+          --   bright = '#E8BFA6',
+          --   dim = '#E7B19C',
+          -- }
+          -- palette.green = {
+          --   base = '#B4D2A6',
+          --   bright = '#C4D7B5',
+          --   dim = '#A2C4A1',
+          -- }
+          -- palette.magenta = {
+          --   base = '#B4D2A6',
+          --   bright = '#E1B3D1',
+          --   dim = '#A2C4A1',
+          -- }
+          --
+          -- palette.orange = '#DB9E6D'
+          -- palette.cyan = '#A0D0D7'
+          -- palette.green = '#B4D2A6'
+          -- palette.green.base = palette.cyan.base
+          return palette
+        end,
+        override = {
+          PmenuSel = { bg = '#CB775D' },
+        },
+        telescope = {
+          -- Available styles: `classic`, `flat`.
+          style = 'flat',
         },
       }
-      vim.cmd 'colorscheme catppuccin'
+      require('nordic').load()
     end,
   },
 
