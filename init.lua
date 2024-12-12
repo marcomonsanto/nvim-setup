@@ -428,18 +428,17 @@ require('lazy').setup({
 
       -- Document existing key chains
       require('which-key').add {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        -- ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+        { '<leader>c', desc = '[C]ode' },
+        { '<leader>d', desc = '[D]ocument', _ = 'which_key_ignore' },
+        { '<leader>r', desc = '[R]ename', _ = 'which_key_ignore' },
+        { '<leader>s', desc = '[S]earch', _ = 'which_key_ignore' },
+        { '<leader>w', desc = '[W]orkspace', _ = 'which_key_ignore' },
+        { '<leader>h', desc = '[H]arpoon', _ = 'which_key_ignore' },
+        { '<leader>t', desc = '[T]oggle', _ = 'which_key_ignore' },
       }
       -- visual mode
       require('which-key').add({
-        ['<leader>h'] = { 'Git [H]unk' },
+        { '<leader>h', desc = 'Git [H]unk' },
       }, { mode = 'v' })
     end,
   },
@@ -1090,46 +1089,54 @@ require('lazy').setup({
     priority = 1000,
     config = function()
       require('nordic').setup {
-        swap_backgrounds = true,
-        on_palette = function(palette)
-          -- palette.black0 = '#BF616A'
-
-          -- palette.orange = {
-          --   base = '#EBAE80',
-          --   bright = '#E8BFA6',
-          --   dim = '#E7B19C',
-          -- }
-          -- palette.green = {
-          --   base = '#B4D2A6',
-          --   bright = '#C4D7B5',
-          --   dim = '#A2C4A1',
-          -- }
-          -- palette.magenta = {
-          --   base = '#B4D2A6',
-          --   bright = '#E1B3D1',
-          --   dim = '#A2C4A1',
-          -- }
-          --
-          -- palette.orange = '#DB9E6D'
-          -- palette.cyan = '#A0D0D7'
-          -- palette.green = '#B4D2A6'
-          -- palette.green.base = palette.cyan.base
-          return palette
-        end,
-        override = {
-          PmenuSel = { bg = '#CB775D' },
-        },
-        telescope = {
-          -- Available styles: `classic`, `flat`.
-          style = 'flat',
-        },
+        -- bold_keywords = true,
+        -- swap_backgrounds = true,
+        -- on_palette = function(palette)
+        --   -- palette.black0 = '#BF616A'
+        --
+        --   -- palette.orange = {
+        --   --   base = '#EBAE80',
+        --   --   bright = '#E8BFA6',
+        --   --   dim = '#E7B19C',
+        --   -- }
+        --   -- palette.green = {
+        --   --   base = '#B4D2A6',
+        --   --   bright = '#C4D7B5',
+        --   --   dim = '#A2C4A1',
+        --   -- }
+        --   -- palette.magenta = {
+        --   --   base = '#B4D2A6',
+        --   --   bright = '#E1B3D1',
+        --   --   dim = '#A2C4A1',
+        --   -- }
+        --   --
+        --   -- palette.orange = '#DB9E6D'
+        --   -- palette.cyan = '#A0D0D7'
+        --   -- palette.green = '#B4D2A6'
+        --   -- palette.green.base = palette.cyan.base
+        --   return palette
+        -- end,
+        -- override = {
+        --   PmenuSel = { bg = '#CB775D' },
+        --   Visual = {
+        --     bg = '#D08770', -- Choose a color you like.,
+        --   },
+        --   CursorLineNr = {
+        --     fg = '#D08770',
+        --     bold = true,
+        --   },
+        -- },
+        -- telescope = {
+        --   -- Available styles: `classic`, `flat`.
+        --   style = 'flat',
+        -- },
       }
       require('nordic').load()
     end,
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  -- { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   {
     'echasnovski/mini.nvim',
@@ -1148,6 +1155,8 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+
+      require('mini.jump').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -1211,7 +1220,7 @@ require('lazy').setup({
   {
     'nvim-treesitter/nvim-treesitter-context',
     event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
-    enabled = true,
+    enabled = false,
     opts = { mode = 'cursor', max_lines = 3 },
   },
 
