@@ -2,6 +2,7 @@ return {
   'folke/trouble.nvim',
   opts = {
     auto_close = true,
+    focus = true,
   }, -- for default options, refer to the configuration section for custom setup.
   cmd = 'Trouble',
   keys = {
@@ -35,8 +36,13 @@ return {
       '<cmd>Trouble qflist toggle<cr>',
       desc = 'Quickfix List (Trouble)',
     },
+    {
+      '<leader>q',
+      '<cmd>Trouble quickfix toggle<cr>',
+      desc = 'Quickfix (Trouble)',
+    },
   },
-  config = function()
-    vim.keymap.set('n', '<leader>q', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Open diagnostic [Q]uickfix list' })
-  end,
+  -- config = function()
+  --   vim.keymap.set('n', '<leader>q', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Open diagnostic [Q]uickfix list' })
+  -- end,
 }

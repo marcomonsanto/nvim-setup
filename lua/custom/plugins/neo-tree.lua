@@ -21,6 +21,8 @@ return {
             desc = 'copy path to clipboard',
           },
         },
+        width = 40,
+        position = 'right',
       },
       default_component_configs = {
         indent = {
@@ -30,8 +32,6 @@ return {
           expander_highlight = 'NeoTreeExpander',
         },
       },
-      width = 35,
-      position = 'right',
       filesystem = {
         follow_current_file = {
           enabled = true, -- This will find and focus the file in the active buffer every time

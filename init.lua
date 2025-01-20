@@ -151,7 +151,9 @@ vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 500
+
+vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -169,10 +171,12 @@ vim.opt.inccommand = 'split'
 -- Show which line your cursor is on
 vim.opt.cursorline = true
 
+vim.opt.termguicolors = true
+
 -- Minimal number of screen lines to keep above and below the cursor.
 -- vim.opt.scrolloff = 10
 
-vim.opt.tabstop = 2
+-- vim.opt.tabstop = 2
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -301,63 +305,6 @@ require('lazy').setup({
       end)
     end,
   },
-
-  {
-    'nvim-neo-tree/neo-tree.nvim',
-    branch = 'v3.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
-      'MunifTanjim/nui.nvim',
-      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-    },
-    config = function()
-      require('neo-tree').setup {
-        window = {
-          mappings = {
-            ['<space>'] = 'none',
-            ['Y'] = {
-              function(state)
-                local node = state.tree:get_node()
-                local path = node:get_id()
-                vim.fn.setreg('+', path, 'c')
-              end,
-              desc = 'copy path to clipboard',
-            },
-          },
-        },
-        default_component_configs = {
-          indent = {
-            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-            expander_collapsed = '',
-            expander_expanded = '',
-            expander_highlight = 'NeoTreeExpander',
-          },
-        },
-        width = 35,
-        filesystem = {
-          follow_current_file = {
-            enabled = true, -- This will find and focus the file in the active buffer every time
-            --               -- the current file is changed while the tree is open.
-            leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
-          },
-          filtered_items = {
-            visible = true,
-            show_hidden_count = true,
-            hide_dotfiles = false,
-            hide_gitignored = true,
-            hide_by_name = {
-              -- '.git',
-              -- '.DS_Store',
-              -- 'thumbs.db',
-            },
-            never_show = {},
-          },
-        },
-      }
-    end,
-  },
-
   -- local builtin = require 'telescope.builtin'
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -431,12 +378,12 @@ require('lazy').setup({
       -- Document existing key chains
       require('which-key').add {
         { '<leader>c', desc = '[C]ode' },
-        { '<leader>d', desc = '[D]ocument', _ = 'which_key_ignore' },
-        { '<leader>r', desc = '[R]ename', _ = 'which_key_ignore' },
-        { '<leader>s', desc = '[S]earch', _ = 'which_key_ignore' },
-        { '<leader>w', desc = '[W]orkspace', _ = 'which_key_ignore' },
-        { '<leader>h', desc = '[H]arpoon', _ = 'which_key_ignore' },
-        { '<leader>t', desc = '[T]oggle', _ = 'which_key_ignore' },
+        { '<leader>d', desc = '[D]ocument' },
+        { '<leader>r', desc = '[R]ename' },
+        { '<leader>s', desc = '[S]earch' },
+        { '<leader>w', desc = '[W]orkspace' },
+        { '<leader>h', desc = '[H]arpoon' },
+        { '<leader>t', desc = '[T]oggle' },
       }
       -- visual mode
       require('which-key').add({
@@ -851,9 +798,9 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        javascript = { { 'prettierd', 'prettier' } },
-        typescript = { { 'prettierd', 'prettier' } },
-        typescriptreact = { { 'prettierd', 'prettier' } },
+        javascript = { 'prettierd' },
+        typescript = { 'prettierd' },
+        typescriptreact = { 'prettierd' },
       },
     },
   },
@@ -1085,57 +1032,57 @@ require('lazy').setup({
   --     vim.cmd 'colorscheme catppuccin'
   --   end,
   -- },
-  {
-    'AlexvZyl/nordic.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('nordic').setup {
-        bold_keywords = true,
-        swap_backgrounds = true,
-        -- on_palette = function(palette)
-        --   palette.black0 = '#BF616A'
-        --
-        --   palette.orange = {
-        --     base = '#EBAE80',
-        --     bright = '#E8BFA6',
-        --     dim = '#E7B19C',
-        --   }
-        --   palette.green = {
-        --     base = '#B4D2A6',
-        --     bright = '#C4D7B5',
-        --     dim = '#A2C4A1',
-        --   }
-        --   palette.magenta = {
-        --     base = '#B4D2A6',
-        --     bright = '#E1B3D1',
-        --     dim = '#A2C4A1',
-        --   }
-        --
-        --   palette.orange = '#DB9E6D'
-        --   palette.cyan = '#A0D0D7'
-        --   palette.green = '#B4D2A6'
-        --   -- palette.green.base = palette.cyan.base
-        --   return palette
-        -- end,
-        override = {
-          PmenuSel = { bg = '#CB775D' },
-          Visual = {
-            bg = '#E7B19C', -- Choose a color you like.,
-          },
-          CursorLineNr = {
-            fg = '#D08770',
-            bold = true,
-          },
-        },
-        telescope = {
-          -- Available styles: `classic`, `flat`.
-          style = 'flat',
-        },
-      }
-      require('nordic').load()
-    end,
-  },
+  -- {
+  --   'AlexvZyl/nordic.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require('nordic').setup {
+  --     bold_keywords = true,
+  --     swap_backgrounds = true,
+  --     -- on_palette = function(palette)
+  --     --   palette.black0 = '#BF616A'
+  --     --
+  --     --   palette.orange = {
+  --     --     base = '#EBAE80',
+  --     --     bright = '#E8BFA6',
+  --     --     dim = '#E7B19C',
+  --     --   }
+  --     --   palette.green = {
+  --     --     base = '#B4D2A6',
+  --     --     bright = '#C4D7B5',
+  --     --     dim = '#A2C4A1',
+  --     --   }
+  --     --   palette.magenta = {
+  --     --     base = '#B4D2A6',
+  --     --     bright = '#E1B3D1',
+  --     --     dim = '#A2C4A1',
+  --     --   }
+  --     --
+  --     --   palette.orange = '#DB9E6D'
+  --     --   palette.cyan = '#A0D0D7'
+  --     --   palette.green = '#B4D2A6'
+  --     --   -- palette.green.base = palette.cyan.base
+  --     --   return palette
+  --     -- end,
+  --     override = {
+  --       PmenuSel = { bg = '#CB775D' },
+  --       Visual = {
+  --         bg = '#E7B19C', -- Choose a color you like.,
+  --       },
+  --       CursorLineNr = {
+  --         fg = '#D08770',
+  --         bold = true,
+  --       },
+  --     },
+  --     telescope = {
+  --       -- Available styles: `classic`, `flat`.
+  --       style = 'flat',
+  --     },
+  --     }
+  --     require('nordic').load()
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   -- { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
