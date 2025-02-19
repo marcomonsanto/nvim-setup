@@ -154,6 +154,8 @@ vim.opt.updatetime = 250
 vim.opt.timeoutlen = 500
 
 vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
+vim.keymap.set({ 'n', 'x' }, 'J', '<Nop>')
+vim.keymap.set({ 'n', 'x' }, 'K', '<Nop>')
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -716,7 +718,18 @@ require('lazy').setup({
         -- But for many etups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         eslint = {},
-        tailwindcss = {},
+        tailwindcss = {
+          settings = {
+            tailwindCSS = {
+              experimental = {
+                classRegex = {
+                  { 'cva\\(((?:[^()]|\\([^()]*\\))*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+                  { 'cx\\(((?:[^()]|\\([^()]*\\))*)\\)', "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+                },
+              },
+            },
+          },
+        },
         --
 
         lua_ls = {
@@ -998,14 +1011,14 @@ require('lazy').setup({
   --   end,
   -- },
   --
-  -- {
-  --   'Shatur/neovim-ayu',
-  --   priority = 1000,
-  --   config = function()
-  --     -- vim.g.ayucolor = 'dark'
-  --     vim.cmd 'colorscheme ayu-dark'
-  --   end,
-  -- },
+  {
+    'Shatur/neovim-ayu',
+    priority = 1000,
+    config = function()
+      -- vim.g.ayucolor = 'dark'
+      vim.cmd 'colorscheme ayu-dark'
+    end,
+  },
   --
   -- {
   --   'catppuccin/nvim',
@@ -1125,6 +1138,28 @@ require('lazy').setup({
       require('mini.surround').setup()
 
       require('mini.jump').setup()
+
+      require('mini.move').setup {
+        mappings = {
+          -- Move visual selection in Visual mode. Defaults are Alt (Meta) + hjkl.
+          left = '<M-h>',
+          right = '<M-l>',
+          down = 'J',
+          up = 'K',
+
+          -- Move current line in Normal mode
+          line_left = '<M-h>',
+          line_right = '<M-l>',
+          line_down = 'J',
+          line_up = 'K',
+        },
+
+        -- Options which control moving behavior
+        options = {
+          -- Automatically reindent selection during linewise vertical move
+          reindent_linewise = true,
+        },
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
