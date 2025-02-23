@@ -986,14 +986,29 @@ require('lazy').setup({
   --   end,
   -- },
   --
-  {
-    'Shatur/neovim-ayu',
-    priority = 1000,
-    config = function()
-      -- vim.g.ayucolor = 'dark'
-      vim.cmd 'colorscheme ayu-dark'
-    end,
-  },
+  -- {
+  --   'Shatur/neovim-ayu',
+  --   priority = 1000,
+  --   config = function()
+  --     -- vim.g.ayucolor = 'dark'
+  --     vim.cmd 'colorscheme ayu-dark'
+  --   end,
+  --   opts = {
+  --     setup = {
+  --       overrides = {
+  --         Normal = { bg = 'None' },
+  --         NormalFloat = { bg = 'none' },
+  --         ColorColumn = { bg = 'None' },
+  --         SignColumn = { bg = 'None' },
+  --         Folded = { bg = 'None' },
+  --         FoldColumn = { bg = 'None' },
+  --         CursorLine = { bg = 'None' },
+  --         CursorColumn = { bg = 'None' },
+  --         VertSplit = { bg = 'None' },
+  --       },
+  --     },
+  --   },
+  -- },
   --
   -- {
   --   'catppuccin/nvim',
@@ -1039,57 +1054,63 @@ require('lazy').setup({
   --     vim.cmd 'colorscheme catppuccin'
   --   end,
   -- },
-  -- {
-  --   'AlexvZyl/nordic.nvim',
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     require('nordic').setup {
-  --     bold_keywords = true,
-  --     swap_backgrounds = true,
-  --     -- on_palette = function(palette)
-  --     --   palette.black0 = '#BF616A'
-  --     --
-  --     --   palette.orange = {
-  --     --     base = '#EBAE80',
-  --     --     bright = '#E8BFA6',
-  --     --     dim = '#E7B19C',
-  --     --   }
-  --     --   palette.green = {
-  --     --     base = '#B4D2A6',
-  --     --     bright = '#C4D7B5',
-  --     --     dim = '#A2C4A1',
-  --     --   }
-  --     --   palette.magenta = {
-  --     --     base = '#B4D2A6',
-  --     --     bright = '#E1B3D1',
-  --     --     dim = '#A2C4A1',
-  --     --   }
-  --     --
-  --     --   palette.orange = '#DB9E6D'
-  --     --   palette.cyan = '#A0D0D7'
-  --     --   palette.green = '#B4D2A6'
-  --     --   -- palette.green.base = palette.cyan.base
-  --     --   return palette
-  --     -- end,
-  --     override = {
-  --       PmenuSel = { bg = '#CB775D' },
-  --       Visual = {
-  --         bg = '#E7B19C', -- Choose a color you like.,
-  --       },
-  --       CursorLineNr = {
-  --         fg = '#D08770',
-  --         bold = true,
-  --       },
-  --     },
-  --     telescope = {
-  --       -- Available styles: `classic`, `flat`.
-  --       style = 'flat',
-  --     },
-  --     }
-  --     require('nordic').load()
-  --   end,
-  -- },
+  {
+    'AlexvZyl/nordic.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('nordic').setup {
+        bold_keywords = true,
+        swap_backgrounds = true,
+        transparent = {
+          -- Enable transparent background.
+          bg = true,
+          -- Enable transparent background for floating windows.
+          float = true,
+        },
+        -- on_palette = function(palette)
+        --   palette.black0 = '#BF616A'
+        --
+        --   palette.orange = {
+        --     base = '#EBAE80',
+        --     bright = '#E8BFA6',
+        --     dim = '#E7B19C',
+        --   }
+        --   palette.green = {
+        --     base = '#B4D2A6',
+        --     bright = '#C4D7B5',
+        --     dim = '#A2C4A1',
+        --   }
+        --   palette.magenta = {
+        --     base = '#B4D2A6',
+        --     bright = '#E1B3D1',
+        --     dim = '#A2C4A1',
+        --   }
+        --
+        --   palette.orange = '#DB9E6D'
+        --   palette.cyan = '#A0D0D7'
+        --   palette.green = '#B4D2A6'
+        --   -- palette.green.base = palette.cyan.base
+        --   return palette
+        -- end,
+        override = {
+          PmenuSel = { bg = '#CB775D' },
+          Visual = {
+            bg = '#E7B19C', -- Choose a color you like.,
+          },
+          CursorLineNr = {
+            fg = '#D08770',
+            bold = true,
+          },
+        },
+        telescope = {
+          -- Available styles: `classic`, `flat`.
+          style = 'flat',
+        },
+      }
+      require('nordic').load()
+    end,
+  },
 
   -- Highlight todo, notes, etc in comments
   -- { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },

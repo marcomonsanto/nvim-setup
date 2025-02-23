@@ -2,15 +2,15 @@ return {
   'yetone/avante.nvim',
   event = 'VeryLazy',
   lazy = false,
-  version = false, -- set this if you want to always pull the latest change
+  version = true, -- set this if you want to always pull the latest change
   opts = {
     -- add any opts here
     auto_suggestions_provider = 'copilot',
     provider = 'copilot',
 
-    -- copilot = {
-    --   model = 'claude-3.5-sonnet',
-    -- },
+    copilot = {
+      model = 'claude-3.5-sonnet',
+    },
 
     -- model = 'o1-mini',
 
