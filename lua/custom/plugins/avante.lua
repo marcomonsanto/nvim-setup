@@ -8,9 +8,9 @@ return {
     auto_suggestions_provider = 'copilot',
     provider = 'copilot',
 
-    copilot = {
-      model = 'claude-3.5-sonnet',
-    },
+    -- copilot = {
+    --   model = 'claude-3.5-sonnet',
+    -- },
 
     -- model = 'o1-mini',
 
