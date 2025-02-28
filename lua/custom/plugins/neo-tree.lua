@@ -22,7 +22,7 @@ return {
           },
         },
         width = 40,
-        position = 'right',
+        position = 'left',
       },
       default_component_configs = {
         indent = {
