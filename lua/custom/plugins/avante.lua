@@ -31,7 +31,7 @@ return {
       },
       hints = { enabled = true },
       file_selector = {
-        provider = 'snacks',
+        provider = 'telescope',
         provider_opts = {},
       },
       behaviour = {
@@ -53,6 +53,7 @@ return {
     dependencies = {
       {
         'MeanderingProgrammer/render-markdown.nvim',
+        'nvim-telescope/telescope.nvim', -- for file_selector provider telescope
         ft = function(_, ft)
           vim.list_extend(ft, { 'Avante' })
         end,

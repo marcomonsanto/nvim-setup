@@ -526,6 +526,14 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<leader>sc', builtin.git_status, { desc = '[S]earch by [C]hanges' })
+
+      -- Git pickers
+      vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = '[G]it [C]ommits' })
+      vim.keymap.set('n', '<leader>gbc', builtin.git_bcommits, { desc = '[G]it [B]uffer [C]ommits' })
+      vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = '[G]it [B]ranches' })
+      vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[G]it [S]tatus' })
+      vim.keymap.set('n', '<leader>gS', builtin.git_stash, { desc = '[G]it [S]tash' })
+
       vim.keymap.set('n', '<leader>sDg', '<cmd>Telescope dir live_grep<CR>', { desc = '[S]earch in [D]irectory [G]rep' })
       vim.keymap.set('n', '<leader>sDf', '<cmd>Telescope dir find_files<CR>', { desc = '[S]earch in [D]irectory [F]iles' })
 
