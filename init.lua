@@ -158,7 +158,7 @@ vim.opt.timeoutlen = 500
 
 vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
 vim.keymap.set({ 'n', 'x' }, 'J', '<Nop>')
-vim.keymap.set({ 'n', 'x' }, 'K', '<Nop>')
+-- vim.keymap.set({ 'n', 'x' }, 'K', '<Nop>')
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -635,6 +635,8 @@ require('lazy').setup({
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
+          map('<S-K', vim.lsp.buf.hover, '[H]over')
+
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
@@ -977,9 +979,27 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'avante_commands', 'avante_mentions', 'avante_files' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          avante_commands = {
+            name = 'avante_commands',
+            module = 'blink.compat.source',
+            score_offset = 90, -- show at a higher priority than lsp
+            opts = {},
+          },
+          avante_files = {
+            name = 'avante_files',
+            module = 'blink.compat.source',
+            score_offset = 100, -- show at a higher priority than lsp
+            opts = {},
+          },
+          avante_mentions = {
+            name = 'avante_mentions',
+            module = 'blink.compat.source',
+            score_offset = 1000, -- show at a higher priority than lsp
+            opts = {},
+          },
         },
       },
 
@@ -1053,10 +1073,10 @@ require('lazy').setup({
           up = 'K',
 
           -- Move current line in Normal mode
-          line_left = '<M-h>',
-          line_right = '<M-l>',
-          line_down = 'J',
-          line_up = 'K',
+          -- line_left = '<M-h>',
+          -- line_right = '<M-l>',
+          -- line_down = 'J',
+          -- line_up = 'K',
         },
 
         -- Options which control moving behavior
