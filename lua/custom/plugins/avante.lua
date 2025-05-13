@@ -38,7 +38,7 @@ return {
         provider_opts = {},
       },
       behaviour = {
-        -- enable_cursor_planning_mode = true,
+        enable_cursor_planning_mode = false,
         auto_suggestions = false,
         use_cwd_as_project_root = true,
       },
