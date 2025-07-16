@@ -20,7 +20,7 @@
 =====================================================================
 =====================================================================
 
-What is Kickstart?
+Whjjat is Kickstart?
 
   Kickstart.nvim is *not* a distribution.
 
@@ -271,6 +271,20 @@ vim.api.nvim_create_autocmd('FileType', {
       vim.fn.matchadd('TelescopeParent', '\t\t.*$')
       vim.api.nvim_set_hl(0, 'TelescopeParent', { link = 'Comment' })
     end)
+  end,
+})
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'BlinkCmpMenuOpen',
+  callback = function()
+    vim.b.copilot_suggestion_hidden = true
+  end,
+})
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'BlinkCmpMenuClose',
+  callback = function()
+    vim.b.copilot_suggestion_hidden = false
   end,
 })
 
@@ -784,6 +798,7 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
+        -- vtsls = {},
         --
 
         lua_ls = {
@@ -840,11 +855,11 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
+    event = { 'BufWritePre', 'BufNewFile' },
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>F',
+        '<leader>f',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
@@ -859,46 +874,36 @@ require('lazy').setup({
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
         local disable_filetypes = { c = true, cpp = true }
+        local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
-          return nil
+          lsp_format_opt = 'never'
         else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
+          lsp_format_opt = 'fallback'
         end
+        return {
+          timeout_ms = 500,
+          lsp_format = lsp_format_opt,
+        }
       end,
+      formatters = {
+        prettierd = {
+          require_cwd = true,
+        },
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
+        -- You can use 'stop_after_first' to run the first available formatter from the list
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
         typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        php = { 'php' },
-        -- You can use 'stop_after_first' to run the first available formatter from the list
+        typescriptrc = { 'prettierd', 'prettier', stop_after_first = true },
+        go = { 'gopls' },
       },
-      -- format_on_save = {
-      --   lsp_fallback = true,
-      --   async = true,
-      --   timeout_ms = 1000,
-      -- },
-      -- notify_on_error = true,
-      -- formatters = {
-      --   php = {
-      --     command = 'php-cs-fixer',
-      --     args = {
-      --       'fix',
-      --       '$FILENAME',
-      --       '--config=/your/path/to/config/file/[filename].php',
-      --       '--allow-risky=yes', -- if you have risky stuff in config, if not you dont need it.
-      --     },
-      --     stdin = false,
-      --   },
-      -- },
     },
   },
 
@@ -980,31 +985,32 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev', 'avante_commands', 'avante_mentions', 'avante_files', 'copilot' },
+        -- default = { 'lsp', 'path', 'snippets', 'lazydev', 'avante_commands', 'avante_mentions', 'avante_files', 'copilot' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'copilot' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-          avante_commands = {
-            name = 'avante_commands',
-            module = 'blink.compat.source',
-            score_offset = 90, -- show at a higher priority than lsp
-            opts = {},
-          },
-          avante_files = {
-            name = 'avante_files',
-            module = 'blink.compat.source',
-            score_offset = 100, -- show at a higher priority than lsp
-            opts = {},
-          },
-          avante_mentions = {
-            name = 'avante_mentions',
-            module = 'blink.compat.source',
-            score_offset = 1000, -- show at a higher priority than lsp
-            opts = {},
-          },
+          -- avante_commands = {
+          --   name = 'avante_commands',
+          --   module = 'blink.compat.source',
+          --   score_offset = 90, -- show at a higher priority than lsp
+          --   opts = {},
+          -- },
+          -- avante_files = {
+          --   name = 'avante_files',
+          --   module = 'blink.compat.source',
+          --   score_offset = 100, -- show at a higher priority than lsp
+          --   opts = {},
+          -- },
+          -- avante_mentions = {
+          --   name = 'avante_mentions',
+          --   module = 'blink.compat.source',
+          --   score_offset = 1000, -- show at a higher priority than lsp
+          --   opts = {},
+          -- },
           copilot = {
             name = 'copilot',
             module = 'blink-copilot',
-            score_offset = 100,
+            score_offset = 1000,
             async = true,
           },
         },
