@@ -7,6 +7,12 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
+        javascript = { 'biomejs', 'prettierd', 'eslint_d' },
+        javascriptreact = { 'biomejs', 'prettierd', 'eslint_d' },
+        typescript = { 'biomejs', 'prettierd', 'eslint_d' },
+        typescriptreact = { 'biomejs', 'prettierd', 'eslint_d' },
+        json = { 'biomejs', 'prettierd' },
+        jsonc = { 'biomejs', 'prettierd' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
