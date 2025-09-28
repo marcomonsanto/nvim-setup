@@ -195,8 +195,6 @@ vim.opt.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
-vim.keymap.set('n', '<C-b>', '<Cmd>Neotree toggle<CR>')
-
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
@@ -854,6 +852,10 @@ require('lazy').setup({
           end,
         },
       }
+
+      -- Set orange border and background highlight for LSP hover windows
+      vim.api.nvim_set_hl(0, 'LspFloatWinBorder', { fg = '#FFA500', bg = '#FFA500' })
+      vim.api.nvim_set_hl(0, 'LspFloatWinNormal', { bg = '#FF8C00' })
     end,
   },
 

@@ -5,12 +5,15 @@ return {
   config = function()
     require('nordic').setup {
       bold_keywords = true,
+      italic_comments = true,
       swap_backgrounds = true,
+      bright_border = true,
+      reduced_blue = true,
       transparent = {
         -- Enable transparent background.
         bg = true,
         -- Enable transparent background for floating windows.
-        float = true,
+        float = false,
       },
       -- on_palette = function(palette)
       --   palette.black0 = '#BF616A'
@@ -37,22 +40,33 @@ return {
       --   -- palette.green.base = palette.cyan.base
       --   return palette
       -- end,
-      override = {
-        PmenuSel = { bg = '#CB775D' },
-        Visual = {
-          bg = '#574640', -- Choose a color you like.,
-        },
-        CursorLineNr = {
-          fg = '#D08770',
-          bold = true,
-        },
-      },
+      -- override = {
+      --   PmenuSel = { bg = '#CB775D' },
+      --   Visual = {
+      --     bg = '#574640', -- Choose a color you like.,
+      --   },
+      --   CursorLineNr = {
+      --     fg = '#D08770',
+      --     bold = true,
+      --   },
+      -- },
       telescope = {
         -- Available styles: `classic`, `flat`.
-        style = 'flat',
+        style = 'classic',
       },
     }
-    require('nordic').load()
+    require('nordic').load {
+      on_highlight = function(highlights, palette)
+        highlights.PmenuSel = { bg = '#CB775D' }
+        highlights.Visual = {
+          bg = '#CB775D', -- Choose a color you like.,
+        }
+        highlights.CursorLineNr = {
+          fg = '#D08770',
+          bold = true,
+        }
+      end,
+    }
     vim.cmd.colorscheme 'nordic'
   end,
 }

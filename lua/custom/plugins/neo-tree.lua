@@ -66,4 +66,7 @@ return {
       },
     }
   end,
+  keys = {
+    { '<C-b>', '<cmd>Neotree reveal<cr>', desc = 'Explorer NeoTree (current file)' },
+  },
 }

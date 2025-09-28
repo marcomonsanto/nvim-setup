@@ -1,0 +1,21 @@
+return {
+  --   'greggh/claude-code.nvim',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim', -- Required for git operations
+  --   },
+  --   config = function()
+  --     require('claude-code').setup {
+  --       window = {
+  --         position = 'float',
+  --         float = {
+  --           width = '90%', -- Number or percentage string
+  --           height = '90%', -- Number or percentage string
+  --           row = 'center', -- Number, "center", or percentage
+  --           col = 'center', -- Number, "center", or percentage
+  --           relative = 'editor',
+  --           border = 'rounded', -- "none", "single", "double", "rounded", "solid", "shadow"
+  --         },
+  --       },
+  --     }
+  --   end,
+}
