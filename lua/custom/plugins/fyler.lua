@@ -11,15 +11,7 @@ return {
   },
   keys = {
     {
-      '<leader>e',
-      function()
-        local fyler = require 'fyler'
-        fyler.open { kind = 'split_left_most' }
-      end,
-      desc = 'Explorer Fyler',
-    },
-    {
-      '<leader>fe',
+      '<C-b>',
       function()
         local fyler = require 'fyler'
         fyler.open { kind = 'split_left_most' }
