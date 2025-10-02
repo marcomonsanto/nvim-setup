@@ -498,7 +498,7 @@ require('lazy').setup({
           path_display = filenameFirst,
           file_ignore_patterns = {
             'node_modules',
-            '.git',
+            '.git/',
           },
         },
         extensions = {
@@ -517,6 +517,9 @@ require('lazy').setup({
           find_files = {
             file_ignore_patterns = { 'node_modules', '%.git/', '.venv' },
             hidden = true,
+          },
+          git_status = {
+            file_ignore_patterns = {},
           },
         },
       }
