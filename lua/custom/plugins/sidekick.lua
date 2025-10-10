@@ -8,6 +8,12 @@ return {
         backend = 'tmux',
         enabled = true,
       },
+      win = {
+        layout = 'right',
+        split = {
+          width = 120,
+        },
+      },
     },
   },
   keys = {
@@ -44,7 +50,7 @@ return {
     {
       '<leader>aa',
       function()
-        require('sidekick.cli').toggle()
+        require('sidekick.cli').toggle { name = 'opencode', focus = true }
       end,
       desc = 'Sidekick Toggle CLI',
       mode = { 'n', 'v' },

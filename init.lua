@@ -394,7 +394,7 @@ require('lazy').setup({
           Right = '<Right> ',
           C = '<C-…> ',
           M = '<M-…> ',
-          D = '<D-…> ',
+          -- D = '<D-…> ',
           S = '<S-…> ',
           CR = '<CR> ',
           Esc = '<Esc> ',
@@ -421,7 +421,7 @@ require('lazy').setup({
 
       spec = {
         { '<leader>c', desc = '[C]ode' },
-        { '<leader>d', desc = '[D]ocument' },
+        -- { '<leader>d', desc = '[D]ocument' },
         { '<leader>r', desc = '[R]ename' },
         { '<leader>w', desc = '[W]orkspace' },
         { '<leader>h', desc = '[H]arpoon' },
