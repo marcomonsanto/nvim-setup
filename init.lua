@@ -686,7 +686,7 @@ require('lazy').setup({
       end,
       formatters = {
         prettierd = {
-          require_cwd = true,
+          require_cwd = false,
         },
       },
       formatters_by_ft = {
@@ -695,14 +695,14 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint' },
-        javascriptreact = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint' },
-        html = { 'prettierd', 'eslint_d', 'prettier', 'eslint' },
-        typescript = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint' },
-        typescriptreact = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint' },
-        typescriptrc = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint' },
-        json = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint' },
-        jsonc = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint' },
+        javascript = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint', stop_after_first = true },
+        javascriptreact = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint', stop_after_first = true },
+        html = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint', stop_after_first = true },
+        typescript = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint', stop_after_first = true },
+        typescriptreact = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint', stop_after_first = true },
+        typescriptrc = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint', stop_after_first = true },
+        json = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint', stop_after_first = true },
+        jsonc = { 'biome', 'prettierd', 'eslint_d', 'prettier', 'eslint', stop_after_first = true },
         go = { 'gopls' },
       },
     },
@@ -890,7 +890,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
