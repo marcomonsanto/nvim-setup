@@ -521,6 +521,10 @@ require('lazy').setup({
           git_status = {
             file_ignore_patterns = {},
           },
+          buffers = {
+            ignore_current_buffer = true,
+            sort_mru = true,
+          },
         },
       }
 
