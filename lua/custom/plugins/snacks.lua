@@ -59,6 +59,9 @@ return {
     -- Indent guides
     indent = {
       enabled = true,
+      animate = {
+        enabled = false,
+      },
     },
     -- Scope highlighting
     scope = {
