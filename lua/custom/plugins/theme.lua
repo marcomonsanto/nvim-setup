@@ -41,7 +41,7 @@ return {
       --   return palette
       -- end,
       -- override = {
-      --   PmenuSel = { bg = '#CB775D' },
+      --   PmenuSel = { bg = '#d68972' },
       --   Visual = {
       --     bg = '#574640', -- Choose a color you like.,
       --   },
@@ -53,12 +53,12 @@ return {
     }
     require('nordic').load {
       on_highlight = function(highlights, palette)
-        highlights.PmenuSel = { bg = '#CB775D' }
+        highlights.PmenuSel = { bg = '#733c2c' }
         highlights.Visual = {
-          bg = '#CB775D', -- Choose a color you like.,
+          bg = '#733c2c', -- Choose a color you like.,
         }
         highlights.CursorLineNr = {
-          fg = '#D08770',
+          fg = '#733c2c',
           bold = true,
         }
       end,
