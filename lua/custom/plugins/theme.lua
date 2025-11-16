@@ -13,7 +13,7 @@ return {
         -- Enable transparent background.
         bg = true,
         -- Enable transparent background for floating windows.
-        float = false,
+        float = true,
       },
       -- on_palette = function(palette)
       --   palette.black0 = '#BF616A'
@@ -50,10 +50,6 @@ return {
       --     bold = true,
       --   },
       -- },
-      telescope = {
-        -- Available styles: `classic`, `flat`.
-        style = 'classic',
-      },
     }
     require('nordic').load {
       on_highlight = function(highlights, palette)

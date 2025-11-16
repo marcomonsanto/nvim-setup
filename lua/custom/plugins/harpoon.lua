@@ -1,7 +1,6 @@
 return {
   'ThePrimeagen/harpoon',
   config = function()
-    require('telescope').setup {}
     local ui = require 'harpoon.ui'
     local mark = require 'harpoon.mark'
 
